@@ -2,8 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kmong.cyber.ad_mms_poster_user" >
 
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,11 +24,17 @@
             </intent-filter>
         </activity>
     </application>
-    <receiver android:name=".Activity.CallActionReceiver">
+    <activity android:name=".CallActionReceiver"/>
+
+    <receiver android:name=".CallActionReceiver">
         <intent-filter>
             <action android:name="android.intent.action.PHONE_STATE" />
             <action android:name="android.intent.action.NEW_OUTGOING_CALL"></action>
         </intent-filter>
     </receiver>
+    <meta-data android:name="DATABASE" android:value="appdata.db" />
+    <meta-data android:name="VERSION" android:value="1" />
+    <meta-data android:name="QUERY_LOG" android:value="true" />
+    <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.kmong" />
 
 </manifest>

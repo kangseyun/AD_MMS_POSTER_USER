@@ -30,9 +30,6 @@ public class CallActionReceiver extends BroadcastReceiver {
 
         this.context = context;
 
-        //onoff
-//        if (!Util.sharedPreferences.getBoolean("sms_onoff", false)) return;
-
 
         //발신전화번호
         String tmp_num = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
