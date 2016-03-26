@@ -1,7 +1,10 @@
 package com.kmong.cyber.ad_mms_poster_user;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -111,8 +114,9 @@ public class MainActivity extends Activity {
 
     @OnClick(R.id.ButtonLoad)
     void imgLoad(){
+        Intent i = new Intent(MainActivity.this, CallDialogActivity.class);
+         startActivity(i);
 
     }
-
 
 }

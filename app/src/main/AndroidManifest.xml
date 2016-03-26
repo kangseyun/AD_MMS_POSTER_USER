@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
     </application>
-    <activity android:name=".CallActionReceiver"/>
+    <activity android:name=".CallDialogActivity"/>
 
     <receiver android:name=".CallActionReceiver">
         <intent-filter>
