@@ -107,8 +107,6 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.ButtonSave)
     void save(){
-        //현재는 텍스트 저장기능만 있음
-
         String content = e_content.getText().toString();
         String query = String.format("insert into content values (null,'%s')", content);
         //String query_img = String.format("insert into img values (null,'%s')", content);
@@ -126,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
     void imgLoad(){
         Intent i = new Intent(MainActivity.this, ImageActivity.class);
         startActivity(i);
+        finish();
     }
 
 }

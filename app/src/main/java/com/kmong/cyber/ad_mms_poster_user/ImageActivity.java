@@ -44,7 +44,8 @@ public class ImageActivity extends Activity {
     public DBController db;
     private ImageAdapter mAdapter;
     public String no;
-
+    private ArrayList<String> result = new ArrayList<String>();
+    private ArrayList<String> pri_no = new ArrayList<String>();
     private Uri mImageCaptureUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +68,8 @@ public class ImageActivity extends Activity {
 
 
     void loadimage(){
-        mAdapter.dataclear();
-
-        ArrayList<String> result = new ArrayList<String>();
-        ArrayList<String> pri_no = new ArrayList<String>();
+        result =null;
+        pri_no = null;
 
         result = db.PrintData2();
         pri_no = db.PrintData3();
@@ -78,7 +77,7 @@ public class ImageActivity extends Activity {
         for(int i=0;i<result.size();i++){
             mAdapter.Additem(new ImageModel(pri_no.get(i),result.get(i)));
         }
-        mAdapter.notifyDataSetChanged();
+
     }
 
     private AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener(){
@@ -92,7 +91,10 @@ public class ImageActivity extends Activity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             db.delete(no);
-                            mAdapter.notifyDataSetChanged();
+                            Intent i = new Intent(ImageActivity.this, MainActivity.class);
+                            startActivity(i);
+                            finish();
+
                         }
                     }).setNegativeButton("취소",
                     new DialogInterface.OnClickListener() {
@@ -142,7 +144,7 @@ public class ImageActivity extends Activity {
         String filename = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
         uri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), filename));
 
-        String query = String.format("insert into img values (null,'%s')",uri.toString()); // 여기다가 이미지 저장 주소 넣어야함
+        String query = String.format("insert into img values (null,'%s')",Environment.getExternalStorageDirectory().toString()+"/"+filename); // 여기다가 이미지 저장 주소 넣어야함
         try {
             db.update(query);
         } catch (Exception e){

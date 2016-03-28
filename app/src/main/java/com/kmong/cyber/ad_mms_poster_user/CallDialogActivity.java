@@ -66,10 +66,10 @@ public class CallDialogActivity extends AppCompatActivity {
         //sendIntent.putExtra("subject", "");
         sendIntent.putExtra("sms_body", db.PrintData()); //
         sendIntent.setType("image/*");
-        /*
+
         for(int i=0;i<url.size();i++) {
             sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(url.get(i)))); // 이미지 저장 주소 로드해서 이미지 불러오게 하기
-        }*/
+        }
         startActivity(Intent.createChooser(sendIntent, "send"));
 
 
