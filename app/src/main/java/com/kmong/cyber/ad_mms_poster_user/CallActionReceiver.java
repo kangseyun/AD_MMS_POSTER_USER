@@ -4,6 +4,7 @@ package com.kmong.cyber.ad_mms_poster_user;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.telephony.PhoneNumberUtils;
 import android.telephony.PhoneStateListener;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
@@ -23,12 +24,11 @@ public class CallActionReceiver extends BroadcastReceiver {
     public static boolean offCheck = false;
     public static String number = "";
     public Context context;
-    String TAG = "Call State catch";
+    public static final String TAG = "PHONE STATE";
+    private static String mLastState;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        this.context = context;
 
 
         //발신전화번호
@@ -47,7 +47,7 @@ public class CallActionReceiver extends BroadcastReceiver {
                     if (!incomingNumber.equals("")) number = incomingNumber;
             }
         }, PhoneStateListener.LISTEN_CALL_STATE);
-
+        Log.i("number",number);
         /*
         발신 : IDLE -> OFFHOOK -> IDLE
         수신 : IDLE -> RINGING -> OFFHOOK -> IDLE
@@ -59,18 +59,6 @@ public class CallActionReceiver extends BroadcastReceiver {
                     Log.d(TAG, "CALL_STATE_IDLE ");
 
                     if (idleCheck && offCheck) {
-
-                        /*
-                        수신 0
-                        발신 1
-                        둘다 2
-                        가 되서 꼬이는 문제 생겼는데 일단
-                        동작은 문제없고 코드만 더러워지
-                        기획서 대로 그대로
-                        일단짜놓고 나중에 수정
-
-                        TODO - 팝업만들기
-                         */
                         int callType = 2;
                         if (ringCheck) {
                             Log.d(TAG, "수신" + number);
@@ -81,16 +69,11 @@ public class CallActionReceiver extends BroadcastReceiver {
                             callType = 1;
 
                         }
-
-                        idleCheck = false;
-                        ringCheck = false;
-                        offCheck = false;
-                    } else {
-                        idleCheck = true;
-                        ringCheck = false;
-                        offCheck = false;
+                        Intent i = new Intent(context, CallDialogActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.putExtra("number",""+number);
+                        context.startActivity(i);
                     }
-                    break;
 
                 case "OFFHOOK":
                     Log.d(TAG, "CALL_STATE_OFFHOOK");
@@ -113,12 +96,9 @@ public class CallActionReceiver extends BroadcastReceiver {
     }
 
 
-
-
     private void sendSMS(String phoneNumber, String message) {
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(phoneNumber, null, message, null, null);
     }
-
-
 }
+

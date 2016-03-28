@@ -6,13 +6,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * Created by seyun on 15. 5. 17..
  */
 public class DBController extends SQLiteOpenHelper {
     private final Context myContext;
     public Cursor cursor;
-
+    public ArrayList<String> result = new ArrayList<String>();
+    public ArrayList<String> no = new ArrayList<String>();
 
     public DBController(Context context) {
         super(context, "MYINFO", null, 1);
@@ -36,20 +40,11 @@ public class DBController extends SQLiteOpenHelper {
         db.close();
     }
 
-    public int selectProfile()
-    {
-        SQLiteDatabase db = getReadableDatabase();
-        cursor = db.rawQuery("select count(*) from content",null);
-        if(cursor.moveToFirst())
-        {
-            if(cursor.getInt(0) == 0)
-            {
-                Log.i("mytable", "s");
-                return 1;
-            }
-        }
-        return 0;
-
+    public void delete(String num) {
+        SQLiteDatabase db = getWritableDatabase();
+        String query = String.format("delete from img where num = %s", num);
+        db.execSQL(query);
+        db.close();
     }
 
     public String PrintData() {
@@ -68,21 +63,34 @@ public class DBController extends SQLiteOpenHelper {
         cursor.close();
         return text;
     }
-
-    public void insertContent(String content){
+    public ArrayList<String> PrintData2() {
         SQLiteDatabase db = getReadableDatabase();
-        cursor = db.rawQuery("select content from content", null);
+        cursor = db.rawQuery("select url from img", null);
+        if(cursor.moveToFirst())
+        {
+            do {
+                result.add(cursor.getString(0));
+                Log.i("DB", cursor.getString(0));
+            } while (cursor.moveToNext());
+
+        }
+        cursor.close();
+        return result;
     }
 
-
-    public String printName()
-    {
-        String name;
+    public ArrayList<String> PrintData3() {
         SQLiteDatabase db = getReadableDatabase();
-        cursor = db.rawQuery("select name from my;",null);
-        cursor.moveToFirst();
-        name = cursor.getString(0);
-        return name;
+        cursor = db.rawQuery("select num from img", null);
+        if(cursor.moveToFirst())
+        {
+            do {
+                no.add(cursor.getString(0));
+                Log.i("DB", cursor.getString(0));
+            } while (cursor.moveToNext());
+
+        }
+        cursor.close();
+        return no;
     }
 
 }

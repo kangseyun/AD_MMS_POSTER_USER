@@ -1,16 +1,17 @@
 package com.kmong.cyber.ad_mms_poster_user;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,23 +23,30 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.kmong.cyber.ad_mms_poster_user.Model.AdModel;
 
 
 import org.json.JSONObject;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends Activity {
+
+public class MainActivity extends AppCompatActivity {
     @Bind(R.id.ButtonLoad) Button btn_load;
     @Bind(R.id.ButtonSave) Button btn_save;
     @Bind(R.id.edit_content) EditText e_content;
     public DBController db;
+
+    public ArrayList<String> url = new ArrayList<String>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +59,7 @@ public class MainActivity extends Activity {
         ButterKnife.bind(this);
         usercheck(); // login check
         Log.i("Phone number", phoneNumberLoad());
+        e_content.setText(db.PrintData());
     }
 
 
@@ -71,6 +80,7 @@ public class MainActivity extends Activity {
                             JSONObject result = new JSONObject(response);
                             int code  = result.getInt("code");
                             if( code != 1){
+                                Toast.makeText(MainActivity.this, "Login Fail", Toast.LENGTH_LONG).show();
                                 System.exit(0);// 비활성화 유저 일경우 어플리케이션 종료
                             }
                         }
@@ -114,9 +124,8 @@ public class MainActivity extends Activity {
 
     @OnClick(R.id.ButtonLoad)
     void imgLoad(){
-        Intent i = new Intent(MainActivity.this, CallDialogActivity.class);
-         startActivity(i);
-
+        Intent i = new Intent(MainActivity.this, ImageActivity.class);
+        startActivity(i);
     }
 
 }

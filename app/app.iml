@@ -73,8 +73,11 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.0.0-alpha1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0-alpha1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v13/22.0.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/24.0.0-alpha1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.0.0-alpha1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.commonsware.cwac/camera/0.6.10/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.jaydeepw/poly-picker/v1.0.22/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.satyan/sugar/1.4/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jacoco" />
@@ -98,9 +101,13 @@
     <orderEntry type="library" exported="" name="guava-18.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-24.0.0-alpha1" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-24.0.0-alpha1" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-24.0.0-alpha1" level="project" />
-    <orderEntry type="library" exported="" name="support-vector-drawable-24.0.0-alpha1" level="project" />
+    <orderEntry type="library" exported="" name="universal-image-loader-1.9.0" level="project" />
     <orderEntry type="library" exported="" name="sugar-1.4" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-24.0.0-alpha1" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-24.0.0-alpha1" level="project" />
+    <orderEntry type="library" exported="" name="support-v13-22.0.0" level="project" />
+    <orderEntry type="library" exported="" name="support-vector-drawable-24.0.0-alpha1" level="project" />
+    <orderEntry type="library" exported="" name="poly-picker-v1.0.22" level="project" />
+    <orderEntry type="library" exported="" name="camera-0.6.10" level="project" />
   </component>
 </module>
