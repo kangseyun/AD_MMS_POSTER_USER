@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.util.Log;
 
+import com.kmong.cyber.ad_mms_poster_user.SendMMS3.SendMMSActivity;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +38,9 @@ public class CallDialogActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        sendMMS();
+                        //sendMMS();
+                        Intent i = new Intent(CallDialogActivity.this, SendMMSActivity.class);
+                        startActivity(i);
                         finish();
                     }
                 })
