@@ -5,24 +5,20 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kmong.cyber.ad_mms_poster_user.Adapter.ImageAdapter;
 import com.kmong.cyber.ad_mms_poster_user.Model.ImageModel;
-
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,7 +27,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

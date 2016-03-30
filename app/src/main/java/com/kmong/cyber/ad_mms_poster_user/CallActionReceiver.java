@@ -4,16 +4,10 @@ package com.kmong.cyber.ad_mms_poster_user;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.telephony.PhoneNumberUtils;
 import android.telephony.PhoneStateListener;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by JSpiner on 2015. 2. 19..
@@ -47,7 +41,7 @@ public class CallActionReceiver extends BroadcastReceiver {
                     if (!incomingNumber.equals("")) number = incomingNumber;
             }
         }, PhoneStateListener.LISTEN_CALL_STATE);
-        Log.i("number",number);
+        Log.i("number", number);
         /*
         발신 : IDLE -> OFFHOOK -> IDLE
         수신 : IDLE -> RINGING -> OFFHOOK -> IDLE
@@ -71,7 +65,7 @@ public class CallActionReceiver extends BroadcastReceiver {
                         }
                         Intent i = new Intent(context, CallDialogActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.putExtra("number",""+number);
+                        i.putExtra("number", "" + number);
                         context.startActivity(i);
                     }
 
