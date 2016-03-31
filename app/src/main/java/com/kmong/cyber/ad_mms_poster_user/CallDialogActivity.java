@@ -27,11 +27,14 @@ import java.util.List;
 public class CallDialogActivity extends AppCompatActivity {
     public DBController db;
     public ArrayList<String> url = new ArrayList<String>();
+    public  String number = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = new DBController(this);
+        Intent intent = getIntent();
+        number = intent.getExtras().getString("number"); // 수신자 번호 가져오기
 
         new AlertDialog.Builder(CallDialogActivity.this)
                 .setTitle("저장된 메세지를 전송하시겠습니까?")
@@ -53,6 +56,13 @@ public class CallDialogActivity extends AppCompatActivity {
                         finish();
                     }
                 })
+                .setNegativeButton("차단", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //dialog.dismiss();
+                        finish();
+                    }
+                })
                 .show();
     }
 
@@ -64,8 +74,6 @@ public class CallDialogActivity extends AppCompatActivity {
 
     private void sendMMS() {
         url = db.PrintData2(); //저장 텍스트 가져오기
-        Intent intent = getIntent();
-        String number = intent.getExtras().getString("number"); // 수신자 번호 가져오기
 
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
         sendIntent.putExtra("address", number);

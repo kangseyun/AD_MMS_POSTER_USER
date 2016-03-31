@@ -222,6 +222,7 @@ public class SendMMSActivity extends Activity {
         /*Path where contents are stored*/
 
         // You need to have this file in your SD. Otherwise error..
+        /*
         File file = new File(Environment.getExternalStorageDirectory(), "19.png");
         Uri outputFileUri = Uri.fromFile(file);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -245,10 +246,10 @@ public class SendMMSActivity extends Activity {
         part1.setContentId("<0>");
         part1.setType(IMMConstants.CT_IMAGE_PNG);
         mm.addContent(part1);
+
+    */
+
         MMContent part2 = new MMContent();
-
-
-
         // 디비에서 저장된 광고 내용 불러오기
         // 이미지로드는 printData2()에서 이미지 주소 불러오서 첨부하면 될듯 구현은 안해써 아직 기본 MMS가 보내지는지 테스트를 안해서
         String contnet  =db.PrintData();

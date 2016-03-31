@@ -27,6 +27,7 @@ public class DBController extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE content( num INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT);");
         db.execSQL("CREATE TABLE img( num INTEGER PRIMARY KEY AUTOINCREMENT, url TEXT);");
+        db.execSQL("CREATE TABLE block( num INTEGER PRIMARY KEY AUTOINCREMENT, number TEXT);");
     }
 
     @Override
@@ -75,6 +76,17 @@ public class DBController extends SQLiteOpenHelper {
 
         }
         cursor.close();
+        return result;
+    }
+
+    public int CheckBlock(String number) {
+        SQLiteDatabase db = getReadableDatabase();
+        int result = 0;
+        cursor = db.rawQuery("select count(*) from block where number = '" + number + "'", null);
+        cursor.moveToFirst();
+        result = cursor.getInt(0);
+        cursor.close();
+
         return result;
     }
 
