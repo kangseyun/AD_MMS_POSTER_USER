@@ -20,11 +20,12 @@ public class CallActionReceiver extends BroadcastReceiver {
     public Context context;
     public static final String TAG = "PHONE STATE";
     private static String mLastState;
+    public DBController db;
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-
+        db = new DBController(context);
         //발신전화번호
         String tmp_num = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
         if (tmp_num != null)
@@ -63,10 +64,13 @@ public class CallActionReceiver extends BroadcastReceiver {
                             callType = 1;
 
                         }
-                        Intent i = new Intent(context, CallDialogActivity.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.putExtra("number", "" + number);
-                        context.startActivity(i);
+                        if(db.CheckBlock(number) == 0){  //차단된 번호 검색해서 없으면 팝업창 뜨도록 만듬
+                            Intent i = new Intent(context, CallDialogActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            i.putExtra("number", "" + number);
+                            context.startActivity(i);
+                        }
+
                     }
 
                 case "OFFHOOK":

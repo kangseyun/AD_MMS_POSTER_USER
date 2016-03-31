@@ -59,7 +59,14 @@ public class CallDialogActivity extends AppCompatActivity {
                 .setNegativeButton("차단", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //dialog.dismiss();
+                        // phone number  block insert
+                        String query = String.format("insert into block values (null,'%s')", number);
+                        //String query_img = String.format("insert into img values (null,'%s')", content);
+                        try {
+                            db.update(query);
+                        } catch (Exception e) {
+                            Log.i("ERROR", e.toString());
+                        }
                         finish();
                     }
                 })
