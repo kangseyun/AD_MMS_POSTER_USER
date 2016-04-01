@@ -231,7 +231,7 @@ public class SendMMSActivity extends Activity {
 
     private void AddContents(MMMessage mm) {
         /*Path where contents are stored*/
-
+        /*
         // You need to have this file in your SD. Otherwise error..
         url = db.PrintData2();
         File file = new File(url.get(0));
@@ -257,7 +257,7 @@ public class SendMMSActivity extends Activity {
         part1.setContentId("<0>");
         part1.setType(IMMConstants.CT_IMAGE_PNG);
         mm.addContent(part1);
-
+*/
 
 
         MMContent part2 = new MMContent();
@@ -318,7 +318,13 @@ public class SendMMSActivity extends Activity {
 
                 if (mSending == false) {
                     mSending = true;
-                    sendMMSUsingNokiaAPI();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            sendMMSUsingNokiaAPI();
+                        }
+                    }).start();
+
                 }
             }
         }

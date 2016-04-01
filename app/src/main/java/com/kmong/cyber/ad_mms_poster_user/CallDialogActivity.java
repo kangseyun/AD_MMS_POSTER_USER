@@ -59,7 +59,13 @@ public class CallDialogActivity extends AppCompatActivity {
                 }).setNeutralButton("차단",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        
+                        String query = String.format("insert into block values (null,'%s')", number);
+                        //String query_img = String.format("insert into img values (null,'%s')", content);
+                        try {
+                            db.update(query);
+                        } catch (Exception e) {
+                            Log.i("ERROR", e.toString());
+                        }
                     }
                 })
                 .show();
