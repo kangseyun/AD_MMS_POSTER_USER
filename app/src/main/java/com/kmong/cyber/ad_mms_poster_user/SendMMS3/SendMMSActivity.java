@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.provider.MediaStore.Images.Media;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.kmong.cyber.ad_mms_poster_user.DBController;
@@ -31,6 +32,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -42,6 +44,8 @@ public class SendMMSActivity extends Activity {
     private PowerManager.WakeLock mWakeLock;
     private ConnectivityBroadcastReceiver mReceiver;
 
+    private String number =null;
+    public ArrayList<String> url = new ArrayList<String>();
     private NetworkInfo mNetworkInfo;
     private NetworkInfo mOtherNetworkInfo;
 
@@ -61,7 +65,9 @@ public class SendMMSActivity extends Activity {
         setContentView(R.layout.main);
 
         db = new DBController(this);
-
+        Intent intent = getIntent();
+        number = intent.getExtras().getString("number"); // 수신자 번호 가져오기
+        Log.i("from number",number);
         mListening = true;
         mSending = false;
         mConnMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -196,13 +202,18 @@ public class SendMMSActivity extends Activity {
         }
     }
 
+    public String phoneNumberLoad() { // MY PHONE NUMBER LOAD
+        TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String mPhoneNumber = tMgr.getLine1Number();
+        return mPhoneNumber;
+    }
     private void SetMessage(MMMessage mm) {
         mm.setVersion(IMMConstants.MMS_VERSION_10);
         mm.setMessageType(IMMConstants.MESSAGE_TYPE_M_SEND_REQ);
         mm.setTransactionId("0000000066");
         mm.setDate(new Date(System.currentTimeMillis()));
-        mm.setFrom("01082251070/TYPE=PLMN"); // doesnt work, i wish this worked as it should be
-        mm.addToAddress("01033334444/TYPE=PLMN");
+        mm.setFrom(phoneNumberLoad()+"/TYPE=PLMN"); // doesnt work, i wish this worked as it should be
+        mm.addToAddress(number+"/TYPE=PLMN");
         mm.setDeliveryReport(true);
         mm.setReadReply(false);
         mm.setSenderVisibility(IMMConstants.SENDER_VISIBILITY_SHOW);
@@ -222,8 +233,8 @@ public class SendMMSActivity extends Activity {
         /*Path where contents are stored*/
 
         // You need to have this file in your SD. Otherwise error..
-        /*
-        File file = new File(Environment.getExternalStorageDirectory(), "19.png");
+        url = db.PrintData2();
+        File file = new File(url.get(0));
         Uri outputFileUri = Uri.fromFile(file);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         Bitmap b;
@@ -247,13 +258,14 @@ public class SendMMSActivity extends Activity {
         part1.setType(IMMConstants.CT_IMAGE_PNG);
         mm.addContent(part1);
 
-    */
+
 
         MMContent part2 = new MMContent();
         // 디비에서 저장된 광고 내용 불러오기
         // 이미지로드는 printData2()에서 이미지 주소 불러오서 첨부하면 될듯 구현은 안해써 아직 기본 MMS가 보내지는지 테스트를 안해서
         String contnet  =db.PrintData();
-
+        Log.i("Content",contnet);
+        contnet = "Hello";
         byte[] buf2 = new byte[]{};
         try {
             buf2 = contnet.getBytes("euc-kr"); // 저장된 광고 내용을 인토딩해서 버퍼에 넣은다

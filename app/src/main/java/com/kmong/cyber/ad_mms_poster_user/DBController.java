@@ -82,7 +82,7 @@ public class DBController extends SQLiteOpenHelper {
     public int CheckBlock(String number) {
         SQLiteDatabase db = getReadableDatabase();
         int result = 0;
-        cursor = db.rawQuery("select count(*) from block where number = '" + number + "'", null);
+        cursor = db.rawQuery("select count(*) from block where number ='"+number+"'", null);
         cursor.moveToFirst();
         result = cursor.getInt(0);
         cursor.close();

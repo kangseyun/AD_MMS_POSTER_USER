@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                                 System.exit(0);// 비활성화 유저 일경우 어플리케이션 종료
                             }
                         } catch (Exception e) {
+                            System.exit(0);// 비활성화 유저 일경우 어플리케이션 종료
                         }
 
                     }

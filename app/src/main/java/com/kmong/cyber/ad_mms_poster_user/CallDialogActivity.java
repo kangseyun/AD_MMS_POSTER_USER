@@ -44,8 +44,9 @@ public class CallDialogActivity extends AppCompatActivity {
                         dialog.dismiss();
                         //sendMMS(); 인텐트 형식의 방법 구현되어있음
                         Intent i = new Intent(CallDialogActivity.this, SendMMSActivity.class); // 라이브러리를 사용하여 보내는 방법 아직 테스트 안해봄 에뮬에선  APN문제때문에 테스트 불가능
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.putExtra("number", "" + number);
                         startActivity(i);
-
                         finish();
                     }
                 })
@@ -55,44 +56,14 @@ public class CallDialogActivity extends AppCompatActivity {
                         dialog.dismiss();
                         finish();
                     }
-                })
-                .setNegativeButton("차단", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // phone number  block insert
-                        String query = String.format("insert into block values (null,'%s')", number);
-                        //String query_img = String.format("insert into img values (null,'%s')", content);
-                        try {
-                            db.update(query);
-                        } catch (Exception e) {
-                            Log.i("ERROR", e.toString());
-                        }
-                        finish();
+                }).setNeutralButton("차단",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        
                     }
                 })
                 .show();
     }
 
 
-    String getText() {
-        return "tmp";
-        // db read
-    }
-
-    private void sendMMS() {
-        url = db.PrintData2(); //저장 텍스트 가져오기
-
-        Intent sendIntent = new Intent(Intent.ACTION_SEND);
-        sendIntent.putExtra("address", number);
-        //sendIntent.putExtra("subject", "");
-        sendIntent.putExtra("sms_body", db.PrintData()); //
-        sendIntent.setType("image/*");
-
-        for (int i = 0; i < url.size(); i++) {
-            sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(url.get(i)))); // 이미지 저장 주소 로드해서 이미지 불러오게 하기
-        }
-        startActivity(Intent.createChooser(sendIntent, "send"));
-
-
-    }
 }
