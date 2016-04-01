@@ -24,7 +24,46 @@ public class APNHelper {
 		final List<APN> results = new ArrayList<APN>();
 
 		final APN apn = new APN();
+        /*
+        skt3g
+        apn: web.sktelecom.com
+        mmsc : http://omms.nate.com:9082/oma_mms
+        mms proxy : smart.nate.com
+        mms port : 9093
+        mcc : 450
+        mnc : 05
 
+        skt lte
+
+        apn: lte.sktelecom.com
+        mmsc : http://omms.nate.com:9082/oma_mms
+        mms proxy : lteoma.nate.com
+        mms port : 9093
+        mcc : 450
+        mnc : 05
+
+        kt 3g
+        apn alwayson.ktfwing.com
+        mmsc : http://mmsc.ktfwing.com:9082
+        mms port :9093
+        mcc : 450
+        mnc :08
+
+        kt lte
+        apn lte.ktfwing.com
+        mmsc : http://mmsc.ktfwing.com:9082
+        mms port :9093
+        mcc : 450
+        mnc :08
+
+
+        lg u+ lte
+        apn : internet.lguplus.co.kr
+        mmsc : http://omammsc.uplus.co.kr:9084
+        mms port :9084
+        mcc : 450
+        mnc : 06
+         */
 		apn.MMSCenterUrl = "http://omms.nate.com:9082/oma_mms";
 
         apn.MMSProxy = "lteoma.nate.com";;
