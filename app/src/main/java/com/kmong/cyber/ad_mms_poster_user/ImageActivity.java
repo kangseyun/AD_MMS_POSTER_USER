@@ -39,6 +39,7 @@ public class ImageActivity extends Activity {
     public DBController db;
     private ImageAdapter mAdapter;
     public String no;
+    public String name;
     private ArrayList<String> result = new ArrayList<String>();
     private ArrayList<String> pri_no = new ArrayList<String>();
     private Uri mImageCaptureUri;
@@ -79,12 +80,16 @@ public class ImageActivity extends Activity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             no = ((TextView) view.findViewById(R.id.listview_number)).getText().toString();
-            Log.i("get",no);
+            name = ((TextView) view.findViewById(R.id.listview_user_name)).getText().toString();
+            Log.i("get",name);
             AlertDialog.Builder alert_confirm = new AlertDialog.Builder(ImageActivity.this);
             alert_confirm.setMessage("사진 목록을 삭제하겠습니까?").setCancelable(false).setPositiveButton("삭제",
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            File file = new File(name); //Copy file Delete
+                            file.delete();
+
                             db.delete(no);
                             Intent i = new Intent(ImageActivity.this, MainActivity.class);
                             startActivity(i);
@@ -173,6 +178,7 @@ public class ImageActivity extends Activity {
 
         return new File(path);
     }
+
     public static boolean copyFile(File srcFile, File destFile) {
         boolean result = false;
         try {

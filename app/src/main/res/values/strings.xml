@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">AD_MMS_POSTER_USER</string>
+    <string name="app_name">포토콜</string>
     <string name="hello">Hello World, SendMMSActivity!</string>
   
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_image">ImageActivity</string>
+    <string name="title_activity_splash">Splash</string>
+    <string name="title_activity_main_send">MainSendActivity</string>
 </resources>

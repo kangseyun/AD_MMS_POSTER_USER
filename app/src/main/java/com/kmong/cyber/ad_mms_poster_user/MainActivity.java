@@ -2,6 +2,8 @@ package com.kmong.cyber.ad_mms_poster_user;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
@@ -30,14 +32,11 @@ import butterknife.OnClick;
 
 
 public class MainActivity extends AppCompatActivity {
-    @Bind(R.id.ButtonLoad)
-    Button btn_load;
-    @Bind(R.id.ButtonSave)
-    Button btn_save;
-    @Bind(R.id.edit_content)
-    EditText e_content;
+    @Bind(R.id.ButtonLoad) Button btn_load;
+    @Bind(R.id.ButtonSave) Button btn_save;
+    @Bind(R.id.edit_content) EditText e_content;
     public DBController db;
-
+    public Context mcontext;
     public ArrayList<String> url = new ArrayList<String>();
 
 
@@ -47,12 +46,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         db = new DBController(this);
         init();
+        usercheck();
     }
+
+
 
     void init() {
         ButterKnife.bind(this);
-        usercheck(); // login check
-        Log.i("Phone number", phoneNumberLoad());
         e_content.setText(db.PrintData());
     }
 
@@ -62,6 +62,19 @@ public class MainActivity extends AppCompatActivity {
         String mPhoneNumber = tMgr.getLine1Number();
         return mPhoneNumber;
     }
+
+    Thread thread = new Thread(){
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(3500); // As I am using LENGTH_LONG in Toast
+                MainActivity.this.finish();
+                System.exit(0);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
     public void usercheck() {
         String myPhoneNumber = phoneNumberLoad();
@@ -74,11 +87,12 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject result = new JSONObject(response);
                             int code = result.getInt("code");
                             if (code != 1) {
-                                Toast.makeText(MainActivity.this, "Login Fail", Toast.LENGTH_LONG).show();
-                                System.exit(0);// 비활성화 유저 일경우 어플리케이션 종료
+                                Toast.makeText(MainActivity.this, "비활성화된 계정입니다. 관리자에게 문의하세요.", Toast.LENGTH_LONG).show();
+                                thread.start();
                             }
                         } catch (Exception e) {
-                            System.exit(0);// 비활성화 유저 일경우 어플리케이션 종료
+                            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+                            thread.start();
                         }
 
                     }
@@ -87,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        thread.start();
                     }
                 }) {
             @Override
@@ -120,6 +135,12 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(MainActivity.this, ImageActivity.class);
         startActivity(i);
         finish();
+    }
+
+    @OnClick(R.id.sendMMS)
+    void MainSend(){
+        Intent i = new Intent(MainActivity.this, MainSendActivity.class);
+        startActivity(i);
     }
 
 }

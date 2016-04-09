@@ -36,6 +36,9 @@ public class CallDialogActivity extends AppCompatActivity {
         Intent intent = getIntent();
         number = intent.getExtras().getString("number"); // 수신자 번호 가져오기
 
+        Log.d("CallDialogActivity","number");
+        //아니 이걸 finish해주면 뭐해 sendmmsactivity에서 안해주는구만....그거 그럼 엠엠에스 보내기ㅓㄴ까지 피니시 기달려야하는데 ?
+        //비동기 모름?그게 그렇게됨?..........
         new AlertDialog.Builder(CallDialogActivity.this)
                 .setTitle("저장된 메세지를 전송하시겠습니까?")
                 .setPositiveButton("전송", new DialogInterface.OnClickListener() {
@@ -66,6 +69,13 @@ public class CallDialogActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             Log.i("ERROR", e.toString());
                         }
+                        finish();
+                    }
+                })
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        finish();
                     }
                 })
                 .show();

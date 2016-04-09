@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="LOGIN"
+            android:text="광고 직접 전송"
             android:textSize="23dp"
             android:textColor="#fff"/>
     </LinearLayout>
@@ -26,11 +26,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="광고 이미지를 넣어주세요"
+            android:text="전송할 번호를 입력하세요"
             android:textSize="30dp"/>
         <EditText
-            android:id="@+id/edit_content"
-            android:lines="5"
+            android:id="@+id/edit_number"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
@@ -38,30 +37,11 @@
             android:layout_height="wrap_content"
             />
         <Button
-            android:id="@+id/ButtonLoad"
+            android:id="@+id/btn_mainsend_ad_post"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="이미지 불러오기"
+            android:text="광고 전송"
             android:layout_margin="30dp"
-            android:textColor="#fff"
-            android:background="#587997"/>
-        <Button
-            android:id="@+id/ButtonSave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="광고저장"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="30dp"
-            android:textColor="#fff"
-            android:background="#587997"/>
-        <Button
-            android:id="@+id/sendMMS"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="바로 보내기"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
             android:textColor="#fff"
             android:background="#587997"/>
     </LinearLayout>

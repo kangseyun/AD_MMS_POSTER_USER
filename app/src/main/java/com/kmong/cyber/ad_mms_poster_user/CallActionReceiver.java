@@ -8,6 +8,20 @@ import android.telephony.PhoneStateListener;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by JSpiner on 2015. 2. 19..
@@ -23,7 +37,8 @@ public class CallActionReceiver extends BroadcastReceiver {
     public DBController db;
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context1, Intent intent) {
+        context = MMSApplication.context;
 
         db = new DBController(context);
         //발신전화번호
@@ -64,13 +79,7 @@ public class CallActionReceiver extends BroadcastReceiver {
                             callType = 1;
 
                         }
-                        if(db.CheckBlock(number) == 0){  //차단된 번호 검색해서 없으면 팝업창 뜨도록 만듬
-                            Intent i = new Intent(context, CallDialogActivity.class);
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            i.putExtra("number", "" + number);
-                            context.startActivity(i);
-                        }
-
+                        usercheck();
                     }
 
                 case "OFFHOOK":
@@ -90,13 +99,68 @@ public class CallActionReceiver extends BroadcastReceiver {
                     break;
             }
         }
+    }
 
+    public String phoneNumberLoad() { // MY PHONE NUMBER LOAD
+        TelephonyManager tMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String mPhoneNumber = tMgr.getLine1Number();
+        return mPhoneNumber;
+    }
+
+    public void usercheck() {
+        String myPhoneNumber = phoneNumberLoad();
+        String API_URL = "http://qwebmomo.cafe24.com/api/check_userable.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, API_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG,"response : "+response);
+                        try {
+                            JSONObject result = new JSONObject(response);
+                            int code = result.getInt("code");
+                            if (code == 1) {
+                                if(db.CheckBlock(number) == 0){  //차단된 번호 검색해서 없으면 팝업창 뜨도록 만듬
+                                    Intent i = new Intent(context, CallDialogActivity.class);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    i.putExtra("number", "" + number);
+                                    context.startActivity(i);
+                                    Log.d(TAG,"started");
+                                }
+                                else{
+                                    Log.d(TAG,"blocked");
+                                    Toast.makeText(context,"차단된 전화번호입니다.",Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            else {
+                                Toast.makeText(context,"비활성화된 계정입니다. 관리자에게 문의하세요.",Toast.LENGTH_LONG).show();
+
+                            }
+                        } catch (Exception e) {
+                            Log.d(TAG,"response error : " +e.getMessage());
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        Log.e(TAG,"VOLLY ERROR : "+error.getMessage());
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("id", phoneNumberLoad());
+                Log.d(TAG,"PARAMS : "+map);
+                return map;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
     }
 
 
-    private void sendSMS(String phoneNumber, String message) {
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, null, null);
-    }
 }
 

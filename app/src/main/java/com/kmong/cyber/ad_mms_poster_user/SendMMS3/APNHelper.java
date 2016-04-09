@@ -66,7 +66,7 @@ public class APNHelper {
          */
 		apn.MMSCenterUrl = "http://omms.nate.com:9082/oma_mms";
 
-        apn.MMSProxy = "lteoma.nate.com";;
+        apn.MMSProxy = "lteoma.nate.com";
 
 		apn.MMSPort = "9093";
 
